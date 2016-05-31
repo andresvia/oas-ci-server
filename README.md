@@ -16,7 +16,7 @@ Este proyecto configura los requerimientos para tener Docker Swarm en la OAS y c
 
 <sub>&copy; http://blog.drone.io/post/drone-with-elixir/</sub>
 
-Para completar la implementación instale también github.com/andresvia/oas-ci-agent antes de continuar.
+Para completar la implementación instale también https://github.com/andresvia/oas-ci-agent antes de continuar.
 
 ## Integración con VCS
 
