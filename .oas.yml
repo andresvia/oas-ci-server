@@ -9,5 +9,8 @@ build_dependencies:
 - gcc
 - make
 - ruby
+- fpm (gem)
 - rpm-build
 - ruby-devel
+- travis (gem)
+sign_package: true
