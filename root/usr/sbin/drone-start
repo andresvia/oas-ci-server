@@ -1,0 +1,4 @@
+#!/bin/bash
+set -eu
+/usr/bin/docker create --volume /var/lib/drone:/var/lib/drone:Z --publish=80:8000 --env-file /etc/drone/dronerc --restart=always --name=drone drone/drone:0.4
+exec /usr/bin/docker start --attach=true drone

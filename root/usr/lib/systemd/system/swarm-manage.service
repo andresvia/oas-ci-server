@@ -1,0 +1,12 @@
+[Unit]
+Description=Inicia swarm manage
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/sbin/swarm-manage-start
+ExecStop=/usr/sbin/swarm-manage-stop
+
+[Install]
+WantedBy=local.target

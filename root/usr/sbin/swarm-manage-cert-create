@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -eu
+
+fqdn="$1"
+shift
+alt_ips="$@"
+ca_home="/var/lib/docker-swarm-ca"
+
+# creando certificados para otro
+cat > "/tmp/openssl-$$.cnf" << EOF
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+[req_distinguished_name]
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth, clientAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = ${fqdn}
+DNS.2 = localhost
+IP.1 = 172.17.0.1
+IP.2 = 127.0.0.1
+EOF
+n_ip=3
+for alt_ip in $alt_ips
+do
+  echo "IP.${n_ip} = ${alt_ip}" >> "/tmp/openssl-$$.cnf"
+  n_ip="$((n_ip + 1))"
+done
+mkdir -pv "${ca_home}/${fqdn}"
+chmod 750 -v "${ca_home}/${fqdn}"
+[ -e "${ca_home}/${fqdn}/ca.pem" ] || cp -v "${ca_home}/ca/ca.pem" "${ca_home}/${fqdn}/ca.pem"
+[ -e "${ca_home}/${fqdn}/key.pem" ] || openssl genrsa -out "${ca_home}/${fqdn}/key.pem" 2048
+openssl req -new -key "${ca_home}/${fqdn}/key.pem" -out "${ca_home}/${fqdn}/cert.csr" -subj '/CN=docker-server' -config "/tmp/openssl-$$.cnf"
+[ -e "${ca_home}/${fqdn}/cert.pem" ] || openssl x509 -req -in "${ca_home}/${fqdn}/cert.csr" -CA "${ca_home}/ca/ca.pem" -CAkey "${ca_home}/ca/key.pem" -CAcreateserial -out "${ca_home}/${fqdn}/cert.pem" -days 10000 -extensions v3_req -extfile "/tmp/openssl-$$.cnf"
+rm -v "${ca_home}/${fqdn}/cert.csr" "/tmp/openssl-$$.cnf"

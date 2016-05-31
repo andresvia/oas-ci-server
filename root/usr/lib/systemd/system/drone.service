@@ -1,0 +1,12 @@
+[Unit]
+Description=Inicia drone
+Requires=swarm-manage.service
+After=swarm-manage.service
+
+[Service]
+Restart=always
+ExecStart=/usr/sbin/drone-start
+ExecStop=/usr/sbin/drone-stop
+
+[Install]
+WantedBy=local.target

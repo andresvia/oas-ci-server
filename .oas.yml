@@ -1,0 +1,13 @@
+project_name: oas-ci-server
+project_description: instala el servidor de CI de OAS
+project_purpose: es el controlador de los oas-ci-agent
+programming_language:
+project_framework: ""
+organizational_unit: Interno
+package_dependencies:
+build_dependencies:
+- gcc
+- make
+- ruby
+- rpm-build
+- ruby-devel

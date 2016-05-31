@@ -1,0 +1,2 @@
+REMOTE_DRIVER=github
+REMOTE_CONFIG=https://github.com?client_id=GITHUB_CLIENT_ID&client_secret=GITHUB_CLIENT_SECRET&open=true&orgs=GITHUB_ORGANIZATION
