@@ -20,6 +20,12 @@ Para completar la implementación instale también https://github.com/andresvia/
 
 ## Integración con VCS
 
-En el archivo `/etc/drone/dronerc` se configura el entorno de ejecución de Drone, un archivo de ejemplo es incluído en el paquete sin embargo debe configurarse para las necesidades específicas de la OAS.
+En el archivo `/etc/drone/dronerc` se configura el entorno de ejecución de Drone, un archivo de ejemplo es incluído en el paquete sin embargo debe configurarse para las necesidades específicas de la OAS. Por ejemplo en GitHub hay que crear una aplicación y copiar la llave de api y la llave secreta.
 
 Lea la documentación sobre Drone al respecto http://readme.drone.io/setup/overview/ .
+
+## Puertos
+
+ - Para comunicación (encriptada con TLS) entre Docker Swarm (servicio systemd swarm-manage) y Docker Hosts (servicio systemd docker) puerto TCP/2376
+ - Para comunicación (encriptada con TSL) entre Drone (servicio systemd drone) y el Docker Swarm TCP/3376 (ambos se encuentran en el mismo host)
+ - Para acceso web a Drone TCP/80

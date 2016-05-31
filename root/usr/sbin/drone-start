@@ -1,4 +1,4 @@
 #!/bin/bash
 set -eu
-/usr/bin/docker create --volume /var/lib/drone:/var/lib/drone:Z --publish=80:8000 --env-file /etc/drone/dronerc --restart=always --name=drone drone/drone:0.4
+/usr/bin/docker create --volume /var/lib/docker-swarm-ca/client:/certs:Z --volume /var/lib/drone:/var/lib/drone:Z --publish=80:8000 --env-file /etc/drone/dronerc -e DOCKER_HOST=tcp://172.17.0.1:3376 -e DOCKER_TLS_VERIFY=1 -e DOCKER_CERT_PATH=/certs --restart=always --name=drone drone/drone:0.4
 exec /usr/bin/docker start --attach=true drone
