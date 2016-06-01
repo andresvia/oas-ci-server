@@ -52,6 +52,10 @@ Este paquete también hace la instalación base de Gogs, la cuál se debe comple
 ## Puertos
 
  - Para comunicación (encriptada con TLS) entre Docker Swarm (servicio systemd swarm-manage) y Docker Hosts (servicio systemd docker) puerto TCP/2376
- - Para comunicación (encriptada con TSL) entre Drone (servicio systemd drone) y el Docker Swarm TCP/3376 (ambos se encuentran en el mismo host)
+ - Para comunicación (encriptada con TLS) entre Drone (servicio systemd drone) y el Docker Swarm TCP/3376 (ambos se encuentran en el mismo host)
  - Para acceso web a Drone TCP/8000
  - Para acceso web a Gogs TCP/3000
+
+## Seguridad
+
+ - Las reglas exactaas para hacer funcionar con `selinux enforcing` se desconocen, si planea habilitar `selinux enforcing` realice un audit antes de hacerlo para dar los permisos de SELINUX que las aplicaciones necesitan.
