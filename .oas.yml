@@ -13,4 +13,3 @@ build_dependencies:
 - rpm-build
 - ruby-devel
 - travis (gem)
-sign_package: true

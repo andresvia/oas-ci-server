@@ -1,5 +1,4 @@
 #!/bin/bash
 set -eu
-fqdn="$(hostname -f)"
-/usr/bin/docker create --volume /var/lib/docker-swarm-ca/swarm:/certs:Z --volume /etc/swarm-manage/nodes:/nodes:Z --name swarm-manage --publish 3376:3376 swarm manage --tlsverify --tlscacert=/certs/ca.pem --tlscert=/certs/cert.pem --tlskey=/certs/key.pem --host=0.0.0.0:3376 file:///nodes
+/usr/bin/docker create --volume /var/lib/docker-swarm-ca/swarm:/certs:ro --volume /etc/swarm-manage/nodes:/nodes:ro --publish 3376:3376 --name swarm-manage swarm manage --tlsverify --tlscacert=/certs/ca.pem --tlscert=/certs/cert.pem --tlskey=/certs/key.pem --host=0.0.0.0:3376 file:///nodes
 exec /usr/bin/docker start --attach=true swarm-manage

@@ -1,4 +1,4 @@
 #!/bin/bash
 set -eu
-/usr/bin/docker-current stop -t 60 drone
-exec /usr/bin/docker-current rm -f drone
+/usr/bin/docker stop -t 60 drone
+exec /usr/bin/docker rm -f drone

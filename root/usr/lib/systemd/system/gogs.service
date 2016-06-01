@@ -1,12 +1,12 @@
 [Unit]
-Description=Inicia drone
+Description=Inicia gogs
 Requires=docker.service
 After=docker.service
 
 [Service]
 Restart=always
-ExecStart=/usr/sbin/drone-start
-ExecStop=/usr/sbin/drone-stop
+ExecStart=/usr/sbin/gogs-start
+ExecStop=/usr/sbin/gogs-stop
 
 [Install]
 WantedBy=local.target

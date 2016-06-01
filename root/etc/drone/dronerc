@@ -1,2 +1,2 @@
-REMOTE_DRIVER=github
-REMOTE_CONFIG=https://github.com?client_id=GITHUB_CLIENT_ID&client_secret=GITHUB_CLIENT_SECRET&open=true&orgs=GITHUB_ORGANIZATION
+REMOTE_DRIVER=gogs
+REMOTE_CONFIG=http://172.17.0.1:3000?open=true
