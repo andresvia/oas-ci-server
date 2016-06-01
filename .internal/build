@@ -19,6 +19,9 @@ OAS_VERSION_PATCH="${OAS_VERSION_PATCH:-0}"
 if [ "${DRONE:-false}" = "true" ]
 then
   OAS_VERSION_META="drone.${DRONE_BUILD_NUMBER:-missing_drone_build_number.$(date +%s)}"
+elif [ "${TRAVIS:-false}" = "true" ]
+then
+  OAS_VERSION_META="travis.${TRAVIS_BUILD_NUMBER:-missing_travis_build_number.$(date +%s)}"
 else
   OAS_VERSION_META="local.$(date +%s)"
 fi
@@ -48,7 +51,7 @@ fi
 if fpm --help > /dev/null
 then
   set -x
-  fpm --description 'instala el servidor de CI de OAS' --package target -C target-root -s dir -t rpm --name "oas-ci-server"  -d docker  --version "${OAS_VERSION}" --before-install scripts/before-install --after-install scripts/after-install --before-remove scripts/before-remove --after-remove scripts/after-remove --before-upgrade scripts/before-upgrade --after-upgrade scripts/after-upgrade --rpm-os linux  .
+  fpm --description 'instala el servidor de CI de OAS' --package target -C target-root -s dir -t rpm --name "oas-ci-server"  -d docker  --version "${OAS_VERSION}" --before-install scripts/before-install --after-install scripts/after-install --before-remove scripts/before-remove --after-remove scripts/after-remove --before-upgrade scripts/before-upgrade --after-upgrade scripts/after-upgrade --rpm-os linux --rpm-sign .
 else
   echo no se encontró fpm
   exit 1
