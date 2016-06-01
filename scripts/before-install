@@ -16,6 +16,7 @@ chmod 750 -v "${ca_home}/ca"
 
 # creando la ca
 [ -e "${ca_home}/ca/key.pem" ] || openssl genrsa -out "${ca_home}/ca/key.pem" 2048
+chmod -v 600 "${ca_home}/ca/key.pem"
 [ -e "${ca_home}/ca/ca.pem" ] || openssl req -x509 -new -nodes -key "${ca_home}/ca/key.pem" -days 10000 -out "${ca_home}/ca/ca.pem" -subj "/CN=docker-ca"
 
 # creando certificados de servidor para swarm
@@ -39,6 +40,7 @@ mkdir -pv "${ca_home}/swarm"
 chmod 750 -v "${ca_home}/swarm"
 [ -e "${ca_home}/swarm/ca.pem" ] || cp -v "${ca_home}/ca/ca.pem" "${ca_home}/swarm/ca.pem"
 [ -e "${ca_home}/swarm/key.pem" ] || openssl genrsa -out "${ca_home}/swarm/key.pem" 2048
+chmod -v 600 "${ca_home}/swarm/key.pem"
 openssl req -new -key "${ca_home}/swarm/key.pem" -out "${ca_home}/swarm/cert.csr" -subj '/CN=docker-swarm' -config "/tmp/openssl-$$.cnf"
 [ -e "${ca_home}/swarm/cert.pem" ] || openssl x509 -req -in "${ca_home}/swarm/cert.csr" -CA "${ca_home}/ca/ca.pem" -CAkey "${ca_home}/ca/key.pem" -CAcreateserial -out "${ca_home}/swarm/cert.pem" -days 10000 -extensions v3_req -extfile "/tmp/openssl-$$.cnf"
 rm -v "${ca_home}/swarm/cert.csr" "/tmp/openssl-$$.cnf"
@@ -58,6 +60,7 @@ mkdir -pv "${ca_home}/client/"
 chmod 750 -v "${ca_home}/client/"
 [ -e "${ca_home}/client/ca.pem" ] || cp -v "${ca_home}/ca/ca.pem" "${ca_home}/client/ca.pem"
 [ -e "${ca_home}/client/key.pem" ] || openssl genrsa -out "${ca_home}/client/key.pem" 2048
+chmod -v 600 "${ca_home}/client/key.pem"
 openssl req -new -key "${ca_home}/client/key.pem"  -out "${ca_home}/client/cert.csr" -subj '/CN=docker-client' -config "/tmp/openssl-$$.cnf"
 [ -e "${ca_home}/client/cert.pem" ] || openssl x509 -req -in "${ca_home}/client/cert.csr" -CA "${ca_home}/ca/ca.pem" -CAkey "${ca_home}/ca/key.pem" -CAcreateserial -out "${ca_home}/client/cert.pem" -days 10000 -extensions v3_req -extfile "/tmp/openssl-$$.cnf"
 rm -v "${ca_home}/client/cert.csr" "/tmp/openssl-$$.cnf"
