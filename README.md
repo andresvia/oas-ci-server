@@ -26,7 +26,7 @@ Existe un ambiente de pruebas automatizado con Vagrant que instala todo lo neces
  - Abrir [drone](http://drone-server:8000/) en el navegador y conectar el usuario recién creado en gogs
    - Necesitará agregar la información del docker swarm en drone utilice las llaves de "client" en `/var/lib/docker-swarm-ca/` como dirección utilice la IP local de docker `172.17.0.1` y el puerto de swarm `3376` de la siguiente manera: `tcp://172.17.0.1:3376/` utilice la utilidad [drone cli](http://readme.drone.io/devs/cli/) para hacer esto.
 
-Ejemplo:
+Ejemplo con drone ejecutándose en el mismo host (127.0.0.1:8000).
 
 ```
 DOCKER_HOST=tcp://172.17.0.1:3376 DOCKER_TLS_VERIFY=1 DOCKER_CERT_PATH=/var/lib/docker-swarm-ca/client/ DRONE_SERVER=http://127.0.0.1:8000/ DRONE_TOKEN='llave-de-drone-copiada-del-ui' /usr/local/bin/drone node create
