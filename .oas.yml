@@ -5,6 +5,7 @@ programming_language:
 project_framework: ""
 organizational_unit: Interno
 package_dependencies:
+ - docker
 build_dependencies:
 - gcc
 - make
