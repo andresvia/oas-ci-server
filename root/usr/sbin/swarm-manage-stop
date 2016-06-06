@@ -1,4 +1,0 @@
-#!/bin/bash
-set -eu
-/usr/bin/docker stop -t 60 swarm-manage
-exec /usr/bin/docker rm -f swarm-manage

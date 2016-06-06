@@ -61,7 +61,7 @@ Drone utiliza las mismas credenciales de acceso que el sistema de VCS integrado.
 
 ## Puertos
 
- - Para comunicación (encriptada con TLS) entre Swarm Manage (servicio systemd swarm-manage) y Docker (servicio systemd docker) puerto TCP/2376
+ - Para comunicación (encriptada con TLS) entre Swarm Manage (servicio systemd ci-swarm-manage) y Docker (servicio systemd docker) puerto TCP/2376
  - Para comunicación (encriptada con TLS) entre Drone (servicio systemd drone) y Swarm Manage TCP/3376
  - Para acceso web a Drone TCP/8000
  - Para acceso web a Gogs TCP/3000

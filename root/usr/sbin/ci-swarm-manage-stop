@@ -1,0 +1,4 @@
+#!/bin/bash
+set -eu
+/usr/bin/docker stop -t 60 ci-swarm-manage
+exec /usr/bin/docker rm -f ci-swarm-manage

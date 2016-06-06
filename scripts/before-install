@@ -15,18 +15,9 @@ then
   echo
   echo
   echo
-  echo "No se encuentran los certificados de swarm-manage en /etc/ci-swarm-manage/certs.d/, se deben generar en oas-ci-swarm-ca con el comando '/usr/sbin/swarm-ci-create-server-cert swarm ${fqdn}' luego traer los archivos desde oas-ci-swarm-ca en '/var/lib/docker-ci-swarm-ca/swarm/*' hasta este servidor en la ruta '/etc/ci-swarm-manage/certs.d/'"
+  echo "No se encuentran los certificados de ci-swarm-manage en /etc/ci-swarm-manage/certs.d/, se deben generar en oas-ci-swarm-ca con el comando '/usr/sbin/swarm-ci-create-server-cert swarm ${fqdn}' luego traer los archivos desde oas-ci-swarm-ca en '/var/lib/docker-ci-swarm-ca/swarm/*' hasta este servidor en la ruta '/etc/ci-swarm-manage/certs.d/'"
   echo
   echo
   echo
   exit 1
-fi
-
-# Iniciando swarm con el nodo actual actual como nodo inicial
-if [ ! -e /etc/ci-swarm-manage/nodes ]
-then
-  mkdir -pv /etc/ci-swarm-manage/
-  cat > /etc/ci-swarm-manage/nodes << EOF
-172.17.0.1:2376
-EOF
 fi
