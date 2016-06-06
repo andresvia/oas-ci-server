@@ -7,69 +7,26 @@ set -eu
 
 echo OAS before install
 
-echo Creando certificados para Docker Swarm
+echo Verificando existencia de certificados para Docker Swarm
 
-ca_home=/var/lib/docker-swarm-ca
-fqdn="$(hostname -f)"
-mkdir -pv "${ca_home}/ca"
-chmod 750 -v "${ca_home}/ca"
-
-# creando la ca
-[ -e "${ca_home}/ca/key.pem" ] || openssl genrsa -out "${ca_home}/ca/key.pem" 2048
-chmod -v 600 "${ca_home}/ca/key.pem"
-[ -e "${ca_home}/ca/ca.pem" ] || openssl req -x509 -new -nodes -key "${ca_home}/ca/key.pem" -days 10000 -out "${ca_home}/ca/ca.pem" -subj "/CN=docker-ca"
-
-# creando certificados de servidor para swarm
-cat > "/tmp/openssl-$$.cnf" << EOF
-[req]
-req_extensions = v3_req
-distinguished_name = req_distinguished_name
-[req_distinguished_name]
-[ v3_req ]
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-extendedKeyUsage = serverAuth, clientAuth
-subjectAltName = @alt_names
-[alt_names]
-DNS.1 = ${fqdn}
-DNS.2 = localhost
-IP.1 = 172.17.0.1
-IP.2 = 127.0.0.1
-EOF
-mkdir -pv "${ca_home}/swarm"
-chmod 750 -v "${ca_home}/swarm"
-[ -e "${ca_home}/swarm/ca.pem" ] || cp -v "${ca_home}/ca/ca.pem" "${ca_home}/swarm/ca.pem"
-[ -e "${ca_home}/swarm/key.pem" ] || openssl genrsa -out "${ca_home}/swarm/key.pem" 2048
-chmod -v 600 "${ca_home}/swarm/key.pem"
-openssl req -new -key "${ca_home}/swarm/key.pem" -out "${ca_home}/swarm/cert.csr" -subj '/CN=docker-swarm' -config "/tmp/openssl-$$.cnf"
-[ -e "${ca_home}/swarm/cert.pem" ] || openssl x509 -req -in "${ca_home}/swarm/cert.csr" -CA "${ca_home}/ca/ca.pem" -CAkey "${ca_home}/ca/key.pem" -CAcreateserial -out "${ca_home}/swarm/cert.pem" -days 10000 -extensions v3_req -extfile "/tmp/openssl-$$.cnf"
-rm -v "${ca_home}/swarm/cert.csr" "/tmp/openssl-$$.cnf"
-
-# creando certificados de cliente
-cat > "/tmp/openssl-$$.cnf" << EOF
-[req]
-req_extensions = v3_req
-distinguished_name = req_distinguished_name
-[req_distinguished_name]
-[ v3_req ]
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-extendedKeyUsage = serverAuth, clientAuth
-EOF
-mkdir -pv "${ca_home}/client/"
-chmod 750 -v "${ca_home}/client/"
-[ -e "${ca_home}/client/ca.pem" ] || cp -v "${ca_home}/ca/ca.pem" "${ca_home}/client/ca.pem"
-[ -e "${ca_home}/client/key.pem" ] || openssl genrsa -out "${ca_home}/client/key.pem" 2048
-chmod -v 600 "${ca_home}/client/key.pem"
-openssl req -new -key "${ca_home}/client/key.pem"  -out "${ca_home}/client/cert.csr" -subj '/CN=docker-client' -config "/tmp/openssl-$$.cnf"
-[ -e "${ca_home}/client/cert.pem" ] || openssl x509 -req -in "${ca_home}/client/cert.csr" -CA "${ca_home}/ca/ca.pem" -CAkey "${ca_home}/ca/key.pem" -CAcreateserial -out "${ca_home}/client/cert.pem" -days 10000 -extensions v3_req -extfile "/tmp/openssl-$$.cnf"
-rm -v "${ca_home}/client/cert.csr" "/tmp/openssl-$$.cnf"
+if [ ! -e "/etc/ci-swarm-manage/certs.d/ca.pem" -o ! -e "/etc/ci-swarm-manage/certs.d/cert.pem" -o ! -e "/etc/ci-swarm-manage/certs.d/key.pem" ]
+then
+  fqdn="$(hostname -f)"
+  echo
+  echo
+  echo
+  echo "No se encuentran los certificados de swarm-manage en /etc/ci-swarm-manage/certs.d/, se deben generar en oas-ci-swarm-ca con el comando '/usr/sbin/swarm-ci-create-server-cert swarm ${fqdn}' luego traer los archivos desde oas-ci-swarm-ca en '/var/lib/docker-ci-swarm-ca/swarm/*' hasta este servidor en la ruta '/etc/ci-swarm-manage/certs.d/'"
+  echo
+  echo
+  echo
+  exit 1
+fi
 
 # Iniciando swarm con el nodo actual actual como nodo inicial
-if [ ! -e /etc/swarm-manage/nodes ]
+if [ ! -e /etc/ci-swarm-manage/nodes ]
 then
-  mkdir -pv /etc/swarm-manage/
-  cat > /etc/swarm-manage/nodes << EOF
+  mkdir -pv /etc/ci-swarm-manage/
+  cat > /etc/ci-swarm-manage/nodes << EOF
 172.17.0.1:2376
 EOF
 fi

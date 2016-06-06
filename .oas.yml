@@ -4,8 +4,6 @@ project_purpose: es el controlador de los oas-ci-agent
 programming_language:
 project_framework:
 organizational_unit: Interno
-package_dependencies:
- - docker
 build_dependencies:
 - gcc
 - make
