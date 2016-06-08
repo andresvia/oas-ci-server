@@ -63,8 +63,12 @@ Drone utiliza las mismas credenciales de acceso que el sistema de VCS integrado.
 
  - Para comunicación (encriptada con TLS) entre Swarm Manage (servicio systemd ci-swarm-manage) y Docker (servicio systemd docker) puerto TCP/2376
  - Para comunicación (encriptada con TLS) entre Drone (servicio systemd drone) y Swarm Manage TCP/3376
- - Para acceso web a Drone TCP/8000
- - Para acceso web a Gogs TCP/3000
+ - Para comunicación (no encriptada) entre oas-ci-agent y Registry (servicio systemd registry) TCP/5000
+ - Para acceso web a Drone (servicio systemd drone) TCP/8000 (no encriptado)
+ - Para acceso web a Gogs (servicio systemd gogs) TCP/3000 (no encriptado)
+ - Para acceso web a Registry Frontend (servicio systemd registry-frontend) TCP/8080 (no encriptado)
+
+Se recomienda asegurar los puertos (especialmente aquellos no encriptados) usando firewalld limitándolo a las redes segmentadas de confianza y VPNs.
 
 ## Seguridad
 

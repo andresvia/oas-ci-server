@@ -1,0 +1,4 @@
+#!/bin/bash
+set -eu
+/usr/bin/docker stop -t 60 registry
+exec /usr/bin/docker rm -f registry

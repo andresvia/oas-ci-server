@@ -1,0 +1,12 @@
+[Unit]
+Description=Inicia registry
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/sbin/registry-start
+ExecStop=/usr/sbin/registry-stop
+
+[Install]
+WantedBy=local.target

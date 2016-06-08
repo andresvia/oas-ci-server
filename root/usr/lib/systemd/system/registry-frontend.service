@@ -1,0 +1,12 @@
+[Unit]
+Description=Inicia registry frontend
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/sbin/registry-frontend-start
+ExecStop=/usr/sbin/registry-frontend-stop
+
+[Install]
+WantedBy=local.target
