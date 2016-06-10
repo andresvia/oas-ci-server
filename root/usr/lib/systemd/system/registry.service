@@ -9,4 +9,4 @@ ExecStart=/usr/sbin/registry-start
 ExecStop=/usr/sbin/registry-stop
 
 [Install]
-WantedBy=local.target
+WantedBy=default.target

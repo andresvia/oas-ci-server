@@ -9,4 +9,4 @@ ExecStart=/usr/sbin/gogs-start
 ExecStop=/usr/sbin/gogs-stop
 
 [Install]
-WantedBy=local.target
+WantedBy=default.target

@@ -9,4 +9,4 @@ ExecStart=/usr/sbin/ci-swarm-manage-start
 ExecStop=/usr/sbin/ci-swarm-manage-stop
 
 [Install]
-WantedBy=local.target
+WantedBy=default.target
