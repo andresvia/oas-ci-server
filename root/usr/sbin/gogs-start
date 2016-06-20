@@ -1,5 +1,5 @@
 #!/bin/bash
 set -eu
 /usr/bin/docker pull gogs/gogs
-/usr/bin/docker create --volume /var/lib/gogs:/data --publish 3000:3000 --publish 10022:22 --name gogs gogs/gogs
+/usr/bin/docker create --env-file /etc/gogs/gogsrc --volume /var/lib/gogs:/data --publish 3000:3000 --publish 10022:22 --name gogs gogs/gogs
 exec /usr/bin/docker start --attach=true gogs
