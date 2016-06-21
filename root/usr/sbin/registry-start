@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eu
-/usr/bin/docker pull registry:2
-/usr/bin/docker create --env-file /etc/registry/registryrc --volume /var/lib/registry:/registry --publish 5000:5000 --name registry registry:2
+docker_image="registry"
+docker_tag="2.4.1"
+/usr/bin/docker create --env-file /etc/registry/registryrc --volume /var/lib/registry:/registry --publish 5000:5000 --name registry "${docker_image}:${docker_tag}"
 exec /usr/bin/docker start --attach=true registry

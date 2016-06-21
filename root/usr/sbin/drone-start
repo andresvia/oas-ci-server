@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eu
-docker pull drone/drone:0.4
-/usr/bin/docker create --volume /var/run/docker.sock:/var/run/docker.sock --volume /var/lib/drone:/var/lib/drone --publish 8000:8000 --env-file /etc/drone/dronerc --name drone drone/drone:0.4
+docker_image="drone/drone"
+docker_tag="0.4"
+/usr/bin/docker create --volume /var/run/docker.sock:/var/run/docker.sock --volume /var/lib/drone:/var/lib/drone --publish 8000:8000 --env-file /etc/drone/dronerc --name drone "${docker_image}:${docker_tag}"
 exec /usr/bin/docker start --attach=true drone

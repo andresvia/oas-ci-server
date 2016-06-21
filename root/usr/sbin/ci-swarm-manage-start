@@ -1,4 +1,6 @@
 #!/bin/bash
 set -eu
-/usr/bin/docker create --volume /etc/ci-swarm-manage/certs.d:/certs:ro --volume /etc/ci-swarm-manage/nodes:/nodes:ro --publish 3376:3376 --name ci-swarm-manage swarm manage --tlsverify --tlscacert=/certs/ca.pem --tlscert=/certs/cert.pem --tlskey=/certs/key.pem --host=0.0.0.0:3376 file:///nodes
+docker_image="swarm"
+docker_tag="1.2.3"
+/usr/bin/docker create --volume /etc/ci-swarm-manage/certs.d:/certs:ro --volume /etc/ci-swarm-manage/nodes:/nodes:ro --publish 3376:3376 --name ci-swarm-manage "${docker_image}:${docker_tag}" manage --tlsverify --tlscacert=/certs/ca.pem --tlscert=/certs/cert.pem --tlskey=/certs/key.pem --host=0.0.0.0:3376 file:///nodes
 exec /usr/bin/docker start --attach=true ci-swarm-manage

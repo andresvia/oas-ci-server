@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eu
-/usr/bin/docker pull konradkleine/docker-registry-frontend:v2
-/usr/bin/docker create --env-file /etc/registry/registryferc --publish 8080:80 --name registry-frontend konradkleine/docker-registry-frontend:v2
+docker_image="konradkleine/docker-registry-frontend"
+docker_tag="v2"
+/usr/bin/docker create --env-file /etc/registry/registryferc --publish 8080:80 --name registry-frontend "${docker_image}:${docker_tag}"
 exec /usr/bin/docker start --attach=true registry-frontend
