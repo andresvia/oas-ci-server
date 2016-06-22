@@ -2,5 +2,5 @@
 set -eu
 docker_image="gogs/gogs"
 docker_tag="0.9.13"
-/usr/bin/docker create --env-file /etc/environment --env-file /etc/gogs/gogsrc --volume /var/lib/gogs:/data --publish 3000:3000 --publish 10022:22 --name gogs "${docker_image}:${docker_tag}"
+/usr/bin/docker create --add-host localhost:172.17.0.1 --env-file /etc/environment --env-file /etc/gogs/gogsrc --volume /var/lib/gogs:/data --publish 3000:3000 --publish 10022:22 --name gogs "${docker_image}:${docker_tag}"
 exec /usr/bin/docker start --attach=true gogs

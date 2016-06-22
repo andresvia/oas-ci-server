@@ -2,5 +2,5 @@
 set -eu
 docker_image="drone/drone"
 docker_tag="0.4"
-/usr/bin/docker create --env-file /etc/environment --volume /var/run/docker.sock:/var/run/docker.sock --volume /var/lib/drone:/var/lib/drone --publish 8000:8000 --env-file /etc/drone/dronerc --name drone "${docker_image}:${docker_tag}"
+/usr/bin/docker create --add-host localhost:172.17.0.1 --env-file /etc/environment --volume /var/run/docker.sock:/var/run/docker.sock --volume /var/lib/drone:/var/lib/drone --publish 8000:8000 --env-file /etc/drone/dronerc --name drone "${docker_image}:${docker_tag}"
 exec /usr/bin/docker start --attach=true drone
