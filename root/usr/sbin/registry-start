@@ -2,5 +2,5 @@
 set -eu
 docker_image="registry"
 docker_tag="2.4.1"
-/usr/bin/docker create --add-host localhost:172.17.0.1 --env-file /etc/environment --env-file /etc/registry/registryrc --volume /var/lib/registry:/registry --publish 5000:5000 --name registry "${docker_image}:${docker_tag}"
+/usr/bin/docker create --env-file /etc/environment --env-file /etc/registry/registryrc --volume /var/lib/registry:/registry --publish 5000:5000 --name registry "${docker_image}:${docker_tag}"
 exec /usr/bin/docker start --attach=true registry
